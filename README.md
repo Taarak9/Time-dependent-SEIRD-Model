@@ -1,6 +1,4 @@
 # Time-dependent-SEIRD-Model
-A Time-Dependent SEIRD Model for Forecasting the COVID-19 Transmission Dynamics
-
 
 **A Time-Dependent SEIRD Model for Forecasting the COVID-19 Transmission Dynamics**  
 Taarak Rapolu, Brahmani Nutakki, T. Sobha Rani, S. Durga Bhavani  
