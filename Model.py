@@ -36,7 +36,7 @@ class SEIRD:
 
         return start_date, available, infected, recovered, deaths
 
-    # Start date - 24th March - India Lockdown
+    # Start date of the first lockdown imposed in that region
     def create_dates(self, start_date, t_max):
         date = np.array(start_date, dtype=np.datetime64)
         dates = date + np.arange(t_max+1)
@@ -45,7 +45,8 @@ class SEIRD:
             str_dates.append(str(i))
 
         return str_dates
-
+    
+    # Time-dependent SEIRD Model
     def seird_model(self, N, str_dates, init_vals, params, t):
         DATE_0, S_0, E_0, I_0, R_0, D_0 = init_vals
         DATE, S, E, I, R, D = [DATE_0], [S_0], [E_0], [I_0], [R_0], [D_0]
@@ -72,7 +73,6 @@ class SEIRD:
         return np.stack([DATE, S, E, I, R, D]).T
 
     # Spliting the data for one day rolling window approach
-
     def split_data(self, pred_start, infected, recovered, deaths):
         train_min = 1
 
@@ -91,7 +91,8 @@ class SEIRD:
         del i
         del j
         return inf_train, rec_train, death_train
-
+    
+    # parameter estimation
     def param_estimator(self, N, str_dates, inf_train, rec_train, death_train):
         t2 = np.arange(0, 3, 1)
         #print("t2", t2)
@@ -200,6 +201,7 @@ class SEIRD:
             # print("z", z)
         return preds
     
+    # Error metric: Mean absolute percentage error
     def MAPE(self, actual, predicted):
 
         mape = 0
@@ -223,6 +225,7 @@ class SEIRD:
 
         return mape/samples
 
+    # Paramter selection
     def param_selection(self):
 
         infected = []
@@ -296,17 +299,6 @@ class SEIRD:
 
             actual_r.append(recovered[v+x+2])
             predicted_r.append(preds[x][2][2])
-
-            '''
-      #print("------------")
-      #print(preds[x][3][0], preds[x][3][1])
-      print(str_dates[v+x+3], infected[v+x+3])
-      actual_i.append(infected[v+x+3])
-      predicted_i.append(preds[x][3][1])
-
-      actual_d.append(deaths[v+x+3])
-      predicted_d.append(preds[x][3][3])
-      '''
 
             #print("actual i ", actual_i)
             #print("predicted i ", predicted_i)
@@ -407,8 +399,7 @@ class SEIRD:
         json.dump(jsonOutput, outFileHandler)
 
     def final_run(self):
-        # final_i = []
-        # final_d = []
+        
         preds = []
         selectedParameters = self.param_selection()
         if selectedParameters == None:
@@ -434,18 +425,8 @@ class SEIRD:
         return out
 
 
-# infile = './Datasets/Russia/Moscow.csv'
-# # #infile = 'Thane'
 #infile = 'Mumbai.csv'
-#infile = 'India.csv'
-
-# # N = 12537954
-# # # N = 9426959  # pune
-# N = 11060148  # thane
 #N = 3145966 #Mumbai
-#N = 1314000000
-
-#model = SEIRD(infile, N, 'India')
-
+#model = SEIRD(infile, N, 'Mumbai')
 #output = model.final_run()
 #print(output)
