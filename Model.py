@@ -15,11 +15,7 @@ class SEIRD:
         self.REQUIRED_SAMPLES = 18
 
     def feed_data(self):
-        # try :
         df = pd.read_csv(self.filename, header=0)  # dataset
-        # except :
-        # print("----")
-        # return False
         start_date = df['Date'].iloc[0]
         confirmed = df['Confirmed'].values.tolist()
         recovered = df['Recovered'].values.tolist()
@@ -190,8 +186,7 @@ class SEIRD:
             str_dates3 = []
             str_dates3 = self.create_dates(recent_vals[0], len(t21))
             results = self.seird_model(self.N, str_dates3, recent_vals, last5_params[z - 1], t21)
-            # t_z = np.arange(7 - z, 14 - z, 1)
-            # t_z = np.arange(0, 15 - z, 1)
+            
             temp = []
             for day in range(1, len(t21)):
                 temp.append([results[day][0], int(float(results[day][3])), int(float(results[day][4])),
@@ -205,19 +200,15 @@ class SEIRD:
     def MAPE(self, actual, predicted):
 
         mape = 0
-        #total_true = 0
         samples = len(actual)
         for i in range(samples):
             true = actual[i]
-            #total_true += true
             pred = predicted[i]
 
             if (true == 0):
                 mape_s = 0
             else:
                 mape_s = (abs(true - pred) / true)
-                # mape_s = abs(true - pred)  #mae
-                #print("mape_s", mape_s)
 
             mape += mape_s
 
@@ -235,9 +226,6 @@ class SEIRD:
         if dataFed == None:
             return None
         start_date, available, infected, recovered, deaths = dataFed
-
-        # print(infected)
-        # print(deaths)
 
         pred_start = available
         #pred_start = available - 21
@@ -289,8 +277,6 @@ class SEIRD:
             predicted_r = []
             mape_r = 0
 
-            #print(preds[x][2][0], preds[x][2][1])
-            #print(str_dates[v+x+2], infected[v+x+2])
             actual_i.append(infected[v+x+2])
             predicted_i.append(preds[x][2][1])
 
