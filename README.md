@@ -2,15 +2,15 @@
 
 ## Installation
 ```bash
-$ [sudo] pip3 install customdl
+$ [sudo] pip3 install tdseird
 ``` 
 ## Development Installation
 ```bash
-$ git clone https://github.com/Taarak9/Custom-DL.git
+$ git clone https://github.com/Taarak9/Time-dependent-SEIRD-Model
 ```
 ## Usage
 ```python3
->>> from customdl import FNN
+>>> from tdseird import SEIRD
 ```
 
 **A Time-Dependent SEIRD Model for Forecasting the COVID-19 Transmission Dynamics**  
