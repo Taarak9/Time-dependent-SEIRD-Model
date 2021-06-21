@@ -1,9 +1,5 @@
-#!/usr/bin/python3
-
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import statistics as stat
 import json
 
 
@@ -114,12 +110,11 @@ class SEIRD:
 
             if (sample == 0):
                 inf_train[sample] = list(map(float, inf_train[sample]))
-                g_0 = (rec_train[sample][1] - rec_train[sample]
-                       [0]) / inf_train[sample][0]
-                delta_0 = (
-                    death_train[sample][1] - death_train[sample][0]) / inf_train[sample][0]
-                e_0 = t_incub * \
-                    (inf_train[sample][1] -
+                g_0 = (rec_train[sample][1] - 
+                       rec_train[sample][0]) / inf_train[sample][0]
+                delta_0 = (death_train[sample][1] - 
+                           death_train[sample][0]) / inf_train[sample][0]
+                e_0 = t_incub * (inf_train[sample][1] -
                      ((1 - g_0 - delta_0) * inf_train[sample][0]))
 
                 if e_0 < 1:
@@ -127,11 +122,11 @@ class SEIRD:
 
                 g_1 = (rec_train[sample + 1][1] -
                        rec_train[sample + 1][0]) / inf_train[sample + 1][0]
-                delta_1 = (
-                    death_train[sample + 1][1] - death_train[sample + 1][0]) / inf_train[sample + 1][0]
-                e_1 = e_0 + \
-                    (t_incub) * (inf_train[sample+1][1] -
-                                 ((1 - g_1 - delta_1) * inf_train[sample + 1][0]))
+                delta_1 = (death_train[sample + 1][1] - 
+                           death_train[sample + 1][0]) / inf_train[sample + 1][0]
+                e_1 = e_0 + (t_incub) * (inf_train[sample+1][1] - 
+                                         ((1 - g_1 - delta_1) * 
+                                          inf_train[sample + 1][0]))
 
                 e_diff = e_1 - e_0
                 s_0 = N - e_0 - i_0 - r_0 - d_0
@@ -172,8 +167,9 @@ class SEIRD:
             t_z = np.arange(0, 15 - z, 1)
             temp = []
             for day in t_z:
-                temp.append([results[day][0], int(float(results[day][3])), int(
-                    float(results[day][4])), int(float(results[day][5]))])
+                temp.append([results[day][0], int(float(results[day][3])), 
+                             int(float(results[day][4])), 
+                             int(float(results[day][5]))])
                 # print(temp)
             preds.append(temp)
             #print("z", z)
@@ -189,7 +185,8 @@ class SEIRD:
             
             temp = []
             for day in range(1, len(t21)):
-                temp.append([results[day][0], int(float(results[day][3])), int(float(results[day][4])),
+                temp.append([results[day][0], int(float(results[day][3])), 
+                             int(float(results[day][4])),
                              int(float(results[day][5]))])
                 # print(temp)
             preds.append(temp)
@@ -393,7 +390,8 @@ class SEIRD:
         _final_i, _final_d, best_param, preds = selectedParameters
 
         out = pd.DataFrame(preds[best_param][len(
-            preds[best_param])-21:], columns=["Date", "Active", "Recovered", "Deceased"])
+            preds[best_param])-21:], columns=["Date", "Active", "Recovered", 
+                                              "Deceased"])
         print(out)
         # out.drop(['Recovered'], axis=1, inplace=True)
         # predicted_i = out['Active'].values.tolist()
@@ -409,10 +407,3 @@ class SEIRD:
         #test_mape.append(self.MAPE(_final_d[1], _final_d[2]))
 
         return out
-
-
-#infile = 'Mumbai.csv'
-#N = 3145966 #Mumbai
-#model = SEIRD(infile, N, 'Mumbai')
-#output = model.final_run()
-#print(output)
