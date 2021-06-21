@@ -1,0 +1,4 @@
+build/
+dist/
+tdseird.egg-info/
+tdseird/__pycache__/

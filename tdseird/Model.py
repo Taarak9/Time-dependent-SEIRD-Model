@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import json
 
-class TD_SEIRD:
+class SEIRD:
     def __init__(self, filename, population, outfile):
         self.filename = filename
         self.N = population

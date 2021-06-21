@@ -12,7 +12,7 @@ with open('requirements.txt', 'r') as fh:
 print(find_packages())
 
 setup(
-    name='time-dependent-seird',
+    name='tdseird',
     version='0.0.1',
     author="Taarak Rapolu",
     author_email="taarak.rapolu@gmail.com",
